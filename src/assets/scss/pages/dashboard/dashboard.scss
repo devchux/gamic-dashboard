@@ -1,0 +1,11 @@
+.dashboard-page {
+  .graph-wrapper {
+    display: flex;
+    gap: 2.4rem;
+
+    > div {
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+  }
+}
