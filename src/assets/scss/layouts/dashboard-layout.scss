@@ -1,12 +1,22 @@
 .dashboard-layout {
   display: flex;
+  flex-direction: column;
+
+  @media only screen and (min-width: 768px) {
+    flex-direction: row;
+  }
 
   .logo-wrapper {
-    width: 5.56%;
+    @media only screen and (min-width: 768px) {
+      width: 5.56%;
+    }
   }
 
   .dashboard-content-wrapper {
-    width: 94.44%;
     padding: 4rem 1.6rem;
+
+    @media only screen and (min-width: 768px) {
+      width: 94.44%;
+    }
   }
 }

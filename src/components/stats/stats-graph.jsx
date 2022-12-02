@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../button/button";
 import LineGraph from "../graph/line-graph";
 
 const StatsGraph = ({ title, amount }) => {
@@ -16,8 +17,13 @@ const StatsGraph = ({ title, amount }) => {
           "June",
           "July",
         ]}
-        data={[65, 59, 80, 81, 26, 55, 40]}
+        data={[0.31, 0.32, 0.23, 0.34, 0.15, 0.21, 0.37]}
       />
+      <div className="button-wrapper">
+        <Button>Daily</Button>
+        <Button>Weekly</Button>
+        <Button active>Monthly</Button>
+      </div>
     </div>
   );
 };
