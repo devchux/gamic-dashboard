@@ -1,4 +1,5 @@
 import React from "react";
+import Pagination from "../../components/pagination";
 import StatsGraph from "../../components/stats/stats-graph";
 import UserCounts from "../../components/stats/user-counts";
 
@@ -11,6 +12,19 @@ const Dashboard = () => {
       </div>
       <div className="user-counts-wrapper">
         <UserCounts />
+      </div>
+      <div className="server-table">
+        <div>
+          <Pagination
+            currentPage={1}
+            maxPageLimit={5}
+            minPageLimit={0}
+            totalPages={16}
+            onPrevClick={() => null}
+            onNextClick={() => null}
+            onPageChange={() => null}
+          />
+        </div>
       </div>
     </div>
   );
