@@ -1,19 +1,23 @@
 import React from "react";
 
-const UserCounts = () => {
+const UserCounts = ({
+  dailyActiveUser,
+  weeklyActiveUser,
+  monthlyActiveUser,
+}) => {
   return (
     <div className="user-counts">
       <div>
         <p>daily active user</p>
-        <h4>10</h4>
+        <h4>{dailyActiveUser || 0}</h4>
       </div>
       <div>
         <p>weekly active user</p>
-        <h4>300</h4>
+        <h4>{weeklyActiveUser || 0}</h4>
       </div>
       <div>
         <p>monthly active user</p>
-        <h4>1000</h4>
+        <h4>{monthlyActiveUser || 0}</h4>
       </div>
     </div>
   );

@@ -2,16 +2,48 @@ import React from "react";
 import Pagination from "../../components/pagination";
 import StatsGraph from "../../components/stats/stats-graph";
 import UserCounts from "../../components/stats/user-counts";
+import { useDashboard } from "../../hooks/useDashboard";
 
 const Dashboard = () => {
+  const {
+    summary,
+    guilds,
+    setCurrentPage,
+    currentPage,
+    setSize,
+    size,
+    getUserKey,
+    getGuildKey,
+    userState,
+    setUserState,
+    guildState,
+    setGuildState,
+  } = useDashboard();
+
   return (
     <div className="dashboard-page">
       <div className="graph-wrapper">
-        <StatsGraph title="Total number of server" amount="1,926" />
-        <StatsGraph title="total users" amount="3,142" />
+        <StatsGraph
+          title="Total number of server"
+          amount={summary["guildCount"] || 0}
+          data={summary[getGuildKey().key]}
+          state={guildState}
+          setState={setGuildState}
+        />
+        <StatsGraph
+          title="total users"
+          amount={summary["userCount"] || 0}
+          data={summary[getUserKey().key]}
+          state={userState}
+          setState={setUserState}
+        />
       </div>
       <div className="user-counts-wrapper">
-        <UserCounts />
+        <UserCounts
+          dailyActiveUser={summary?.dailyActiveUser}
+          weeklyActiveUser={summary?.weeklyActiveUser}
+          monthlyActiveUser={summary?.monthlyActiveUser}
+        />
       </div>
       <div className="server-table-wrapper">
         <h4 className="table-title">Servers</h4>
