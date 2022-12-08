@@ -1,0 +1,26 @@
+.stats-graph {
+  padding: 4rem;
+
+  @media only screen and (min-width: 580px) {
+    max-width: 65.2rem;
+  }
+
+  .title {
+    font-size: 1.4rem;
+    line-height: 2rem;
+  }
+
+  .amount {
+    font-weight: 900;
+    font-size: 4rem;
+    line-height: 5.6rem;
+    margin: 0.8rem 0 4rem 0;
+  }
+
+  .button-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin-top: 1.8rem;
+  }
+}

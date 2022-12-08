@@ -1,0 +1,21 @@
+@import "../../shared/colors.scss";
+
+.custom-select {
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 6.2rem;
+  height: 3.2rem;
+  padding: 0.7rem 1.2rem;
+  outline: none;
+  border: none;
+  background-color: $mineShaft;
+  color: $dustyGrey;
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+  border-radius: 0.6rem;
+  background-image: url('../../../svgs/caret.svg');
+  background-repeat: no-repeat;
+  background-position: 3.98rem 1.39rem;
+}
