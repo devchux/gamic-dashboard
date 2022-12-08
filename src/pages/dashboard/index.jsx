@@ -18,11 +18,12 @@ const Dashboard = () => {
     guildState,
     setGuildState,
     getGuildType,
-    total,
     pages,
     onNextPageClick,
     onPrevPageClick,
     onPageClick,
+    minPage,
+    maxPage,
   } = useDashboard();
 
   return (
@@ -75,8 +76,8 @@ const Dashboard = () => {
           size={size}
           setSize={setSize}
           currentPage={currentPage}
-          maxPageLimit={5}
-          minPageLimit={0}
+          maxPageLimit={maxPage}
+          minPageLimit={minPage}
           totalPages={pages}
           onPrevClick={onPrevPageClick}
           onNextClick={onNextPageClick}

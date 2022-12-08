@@ -9,10 +9,8 @@ const Pagination = ({
   onPrevClick,
   onNextClick,
   onPageChange,
-  totalPages: totalPagesProp,
+  totalPages,
 }) => {
-  const totalPages = totalPagesProp - 1;
-
   const pages = [];
   for (let i = 1; i <= totalPages; i++) {
     pages.push(i);

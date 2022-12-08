@@ -71,6 +71,21 @@ export const useDashboard = () => {
     setCurrentPage(page);
   };
 
+  const getMinMaxPage = () => {
+    let maxPage = 5;
+    let minPage = 0;
+    const nextPages = currentPage + 5;
+
+    if (currentPage > maxPage || currentPage < minPage) {
+      minPage = currentPage - 1;
+      maxPage = nextPages > pages ? pages : nextPages;
+    }
+
+    return [minPage, maxPage];
+  };
+
+  const [minPage, maxPage] = getMinMaxPage();
+
   const getSummary = async () => {
     try {
       const { data } = await axios.get("/summary");
@@ -121,5 +136,7 @@ export const useDashboard = () => {
     onNextPageClick,
     onPrevPageClick,
     onPageClick,
+    minPage,
+    maxPage,
   };
 };
