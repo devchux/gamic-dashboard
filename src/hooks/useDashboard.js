@@ -6,7 +6,9 @@ export const useDashboard = () => {
   const [summary, setSummary] = useState({});
   const [guilds, setGuilds] = useState({});
   const [size, setSize] = useState(10);
+  const [total, setTotal] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pages, setPages] = useState(1);
   const [userState, setUserState] = useState("daily");
   const [guildState, setGuildState] = useState("daily");
 
@@ -42,11 +44,36 @@ export const useDashboard = () => {
     }
   };
 
+  const getGuildType = (type) => {
+    switch (type) {
+      case 0:
+        return "Game Guild";
+
+      case 1:
+        return "Community Build";
+
+      default:
+        return "None";
+    }
+  };
+
+  const onNextPageClick = () => {
+    if (currentPage === pages) return;
+    setCurrentPage(currentPage + 1);
+  };
+
+  const onPrevPageClick = () => {
+    if (currentPage === 1) return;
+    setCurrentPage(currentPage - 1);
+  };
+
+  const onPageClick = (page) => {
+    setCurrentPage(page);
+  };
+
   const getSummary = async () => {
     try {
-      const { data } = await axios.get(
-        "https://gamic.app/api/dashboard/summary"
-      );
+      const { data } = await axios.get("/summary");
       setSummary(data.result);
     } catch (error) {
       toast.error(error?.response?.data || error.message);
@@ -56,9 +83,12 @@ export const useDashboard = () => {
   const getGuilds = async () => {
     try {
       const { data } = await axios.get(
-        `https://gamic.app/api/dashboard/guilds?current=${currentPage}&size=${size}`
+        `/guilds?current=${currentPage}&size=${size}`
       );
       setGuilds(data?.result?.records);
+      setTotal(data?.result?.total || 0);
+      setCurrentPage(data?.result?.current || 1);
+      setPages(data?.result?.pages || 1);
     } catch (error) {
       toast.error(error?.response?.data || error.message);
     }
@@ -76,7 +106,6 @@ export const useDashboard = () => {
   return {
     summary,
     guilds,
-    setCurrentPage,
     currentPage,
     setSize,
     size,
@@ -86,5 +115,11 @@ export const useDashboard = () => {
     setUserState,
     guildState,
     setGuildState,
+    getGuildType,
+    total,
+    pages,
+    onNextPageClick,
+    onPrevPageClick,
+    onPageClick,
   };
 };

@@ -8,7 +8,6 @@ const Dashboard = () => {
   const {
     summary,
     guilds,
-    setCurrentPage,
     currentPage,
     setSize,
     size,
@@ -18,6 +17,12 @@ const Dashboard = () => {
     setUserState,
     guildState,
     setGuildState,
+    getGuildType,
+    total,
+    pages,
+    onNextPageClick,
+    onPrevPageClick,
+    onPageClick,
   } = useDashboard();
 
   return (
@@ -54,71 +59,28 @@ const Dashboard = () => {
             <div>type</div>
             <div>online</div>
           </div>
-          <div className="table-row">
-            <div>ZaQ.GameZone</div>
-            <div>1,025</div>
-            <div>Game guild</div>
-            <div>172</div>
-          </div>
-          <div className="table-row">
-            <div>ZaQ.GameZone</div>
-            <div>1,025</div>
-            <div>Game guild</div>
-            <div>172</div>
-          </div>
-          <div className="table-row">
-            <div>ZaQ.GameZone</div>
-            <div>1,025</div>
-            <div>Game guild</div>
-            <div>172</div>
-          </div>
-          <div className="table-row">
-            <div>ZaQ.GameZone</div>
-            <div>1,025</div>
-            <div>Game guild</div>
-            <div>172</div>
-          </div>
-          <div className="table-row">
-            <div>ZaQ.GameZone</div>
-            <div>1,025</div>
-            <div>Game guild</div>
-            <div>172</div>
-          </div>
-          <div className="table-row">
-            <div>ZaQ.GameZone</div>
-            <div>1,025</div>
-            <div>Game guild</div>
-            <div>172</div>
-          </div>
-          <div className="table-row">
-            <div>ZaQ.GameZone</div>
-            <div>1,025</div>
-            <div>Game guild</div>
-            <div>172</div>
-          </div>
-          <div className="table-row">
-            <div>ZaQ.GameZone</div>
-            <div>1,025</div>
-            <div>Game guild</div>
-            <div>172</div>
-          </div>
-          <div className="table-row">
-            <div>ZaQ.GameZone</div>
-            <div>1,025</div>
-            <div>Game guild</div>
-            <div>172</div>
-          </div>
+          {guilds.length &&
+            guilds?.map((guild) => (
+              <div className="table-row" key={guild?.id}>
+                <div>{guild?.guildName}</div>
+                <div>{guild?.members}</div>
+                <div>{getGuildType(guild?.type)}</div>
+                <div>{guild?.onlineMembers}</div>
+              </div>
+            ))}
         </div>
       </div>
       <div>
         <Pagination
-          currentPage={1}
+          size={size}
+          setSize={setSize}
+          currentPage={currentPage}
           maxPageLimit={5}
           minPageLimit={0}
-          totalPages={16}
-          onPrevClick={() => null}
-          onNextClick={() => null}
-          onPageChange={() => null}
+          totalPages={pages}
+          onPrevClick={onPrevPageClick}
+          onNextClick={onNextPageClick}
+          onPageChange={onPageClick}
         />
       </div>
     </div>

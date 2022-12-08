@@ -1,6 +1,8 @@
 import Select from "../input/select";
 
 const Pagination = ({
+  size,
+  setSize,
   currentPage,
   maxPageLimit,
   minPageLimit,
@@ -76,7 +78,15 @@ const Pagination = ({
       </ul>
       <div className="rows-per-page">
         <div>
-          <Select options={[{ value: 10, label: 10 }]} />
+          <Select
+            value={size}
+            onChange={({ target: { value } }) => setSize(value)}
+            options={[
+              { value: 10, label: 10 },
+              { value: 20, label: 20 },
+              { value: 50, label: 50 },
+            ]}
+          />
         </div>
         <p>Rows per page</p>
       </div>
