@@ -89,7 +89,7 @@ export const useDashboard = () => {
 
   const getSummary = async () => {
     try {
-      const { data } = await axios.get("/summary");
+      const { data } = await axios.get("/dashboard/summary");
       setSummary(data.result);
     } catch (error) {
       toast.error(error?.response?.data || error.message);
@@ -99,7 +99,7 @@ export const useDashboard = () => {
   const getGuilds = async () => {
     try {
       const { data } = await axios.get(
-        `/guilds?current=${currentPage}&size=${size}`
+        `/dashboard/guilds?current=${currentPage}&size=${size}`
       );
       setGuilds(data?.result?.records);
       setTotal(data?.result?.total || 0);
