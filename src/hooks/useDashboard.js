@@ -71,6 +71,7 @@ export const useDashboard = () => {
     setCurrentPage(page);
   };
 
+
   const getMinMaxPage = () => {
     let maxPage = 5;
     let minPage = 0;
@@ -88,11 +89,7 @@ export const useDashboard = () => {
 
   const getSummary = async () => {
     try {
-      const { data } = await axios.get(
-        process.env.NODE_ENV === "development"
-          ? "/dashboard/summary"
-          : "https://gamic.app/api/dashboard/summary"
-      );
+      const { data } = await axios.get("/dashboard/summary");
       setSummary(data.result);
     } catch (error) {
       toast.error(error?.response?.data || error.message);
@@ -102,9 +99,7 @@ export const useDashboard = () => {
   const getGuilds = async () => {
     try {
       const { data } = await axios.get(
-        process.env.NODE_ENV === "development"
-          ? `/dashboard/guilds?current=${currentPage}&size=${size}`
-          : `https://gamic.app/api/dashboard/guilds?current=${currentPage}&size=${size}`
+        `/dashboard/guilds?current=${currentPage}&size=${size}`
       );
       setGuilds(data?.result?.records);
       setTotal(data?.result?.total || 0);
