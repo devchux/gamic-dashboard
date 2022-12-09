@@ -12,6 +12,8 @@ export const useDashboard = () => {
   const [userState, setUserState] = useState("daily");
   const [guildState, setGuildState] = useState("daily");
 
+  const api = process.env.REACT_APP_BACKEND_API
+
   const getUserKey = () => {
     switch (userState) {
       case "daily":
@@ -71,6 +73,7 @@ export const useDashboard = () => {
     setCurrentPage(page);
   };
 
+
   const getMinMaxPage = () => {
     let maxPage = 5;
     let minPage = 0;
@@ -88,7 +91,7 @@ export const useDashboard = () => {
 
   const getSummary = async () => {
     try {
-      const { data } = await axios.get("/dashboard/summary");
+      const { data } = await axios.get(`${api}/summary`);
       setSummary(data.result);
     } catch (error) {
       toast.error(error?.response?.data || error.message);
@@ -98,7 +101,7 @@ export const useDashboard = () => {
   const getGuilds = async () => {
     try {
       const { data } = await axios.get(
-        `/dashboard/guilds?current=${currentPage}&size=${size}`
+        `${api}/guilds?current=${currentPage}&size=${size}`
       );
       setGuilds(data?.result?.records);
       setTotal(data?.result?.total || 0);
@@ -111,6 +114,7 @@ export const useDashboard = () => {
 
   useEffect(() => {
     getSummary();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

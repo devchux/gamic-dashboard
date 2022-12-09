@@ -11,6 +11,7 @@ const Pagination = ({
   onPageChange,
   totalPages,
 }) => {
+
   const pages = [];
   for (let i = 1; i <= totalPages; i++) {
     pages.push(i);
