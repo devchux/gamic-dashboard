@@ -14,7 +14,7 @@ const StatsGraph = ({ title, amount, state, setState, data = [] }) => {
     <div className="stats-graph">
       <p className="title">{title}</p>
       <h3 className="amount">{amount}</h3>
-      <LineGraph labels={labels} data={counts} />
+      <LineGraph labels={labels.reverse()} data={counts.reverse()} />
       <div className="button-wrapper">
         <Button activated={state === "daily"} onClick={() => setState("daily")}>
           Daily
