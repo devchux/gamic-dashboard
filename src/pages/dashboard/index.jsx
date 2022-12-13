@@ -30,14 +30,14 @@ const Dashboard = () => {
     <div className="dashboard-page">
       <div className="graph-wrapper">
         <StatsGraph
-          title="Total number of server"
+          title="Total Number of Servers"
           amount={summary["guildCount"] || 0}
           data={summary[getGuildKey().key]}
           state={guildState}
           setState={setGuildState}
         />
         <StatsGraph
-          title="total users"
+          title="Total Users"
           amount={summary["userCount"] || 0}
           data={summary[getUserKey().key]}
           state={userState}
@@ -56,9 +56,9 @@ const Dashboard = () => {
         <div className="server-table">
           <div className="table-header">
             <div>Name</div>
-            <div>member</div>
-            <div>type</div>
-            <div>online</div>
+            <div>Member</div>
+            <div>Type</div>
+            <div>Online</div>
           </div>
           {guilds.length &&
             guilds?.map((guild) => (
