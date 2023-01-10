@@ -56,17 +56,19 @@ const Dashboard = () => {
         <div className="server-table">
           <div className="table-header">
             <div>Name</div>
-            <div>member</div>
             <div>type</div>
-            <div>online</div>
+            <div>member</div>
+
+            {/* <div>online</div> */}
           </div>
           {guilds.length &&
             guilds?.map((guild) => (
               <div className="table-row" key={guild?.id}>
                 <div>{guild?.guildName}</div>
-                <div>{guild?.members}</div>
                 <div>{getGuildType(guild?.type)}</div>
-                <div>{guild?.onlineMembers}</div>
+                <div>{guild?.members}</div>
+
+                {/* <div>{guild?.onlineMembers}</div> */}
               </div>
             ))}
         </div>
