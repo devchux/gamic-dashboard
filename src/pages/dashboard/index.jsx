@@ -24,6 +24,7 @@ const Dashboard = () => {
     onPageClick,
     minPage,
     maxPage,
+    commaSeperatedNumber,
   } = useDashboard();
 
   return (
@@ -31,14 +32,14 @@ const Dashboard = () => {
       <div className="graph-wrapper">
         <StatsGraph
           title="Total Number of Servers"
-          amount={summary["guildCount"] || 0}
+          amount={commaSeperatedNumber(summary["guildCount"] || 0)}
           data={summary[getGuildKey().key]}
           state={guildState}
           setState={setGuildState}
         />
         <StatsGraph
           title="Total Users"
-          amount={summary["userCount"] || 0}
+          amount={commaSeperatedNumber(summary["userCount"] || 0)}
           data={summary[getUserKey().key]}
           state={userState}
           setState={setUserState}
@@ -46,9 +47,9 @@ const Dashboard = () => {
       </div>
       <div className="user-counts-wrapper">
         <UserCounts
-          dailyActiveUser={summary?.dailyActiveUser}
-          weeklyActiveUser={summary?.weeklyActiveUser}
-          monthlyActiveUser={summary?.monthlyActiveUser}
+          dailyActiveUser={commaSeperatedNumber(summary?.dailyActiveUser)}
+          weeklyActiveUser={commaSeperatedNumber(summary?.weeklyActiveUser)}
+          monthlyActiveUser={commaSeperatedNumber(summary?.monthlyActiveUser)}
         />
       </div>
       <div className="server-table-wrapper">
@@ -66,7 +67,7 @@ const Dashboard = () => {
                 <div>{guild?.guildName}</div>
                 <div>{guild?.members}</div>
                 <div>{getGuildType(guild?.type)}</div>
-                <div>{guild?.onlineMembers}</div>
+                <div>{commaSeperatedNumber(guild?.onlineMembers || 0)}</div>
               </div>
             ))}
         </div>

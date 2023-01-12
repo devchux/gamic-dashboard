@@ -89,6 +89,12 @@ export const useDashboard = () => {
 
   const [minPage, maxPage] = getMinMaxPage();
 
+  const commaSeperatedNumber = (val) => {
+    return (+val).toLocaleString(undefined, {
+      maximumFractionDigits: 2,
+    });
+  };
+
   const getSummary = async () => {
     try {
       const { data } = await axios.get(`${api}/summary`);
@@ -142,5 +148,6 @@ export const useDashboard = () => {
     onPageClick,
     minPage,
     maxPage,
+    commaSeperatedNumber,
   };
 };
