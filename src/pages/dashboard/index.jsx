@@ -57,7 +57,7 @@ const Dashboard = () => {
         <div className="server-table">
           <div className="table-header">
             <div>Name</div>
-            <div>Member</div>
+            <div>Members</div>
             <div>Type</div>
             <div>Online</div>
           </div>
@@ -65,7 +65,7 @@ const Dashboard = () => {
             guilds?.map((guild) => (
               <div className="table-row" key={guild?.id}>
                 <div>{guild?.guildName}</div>
-                <div>{guild?.members}</div>
+                <div>{commaSeperatedNumber(guild?.members)}</div>
                 <div>{getGuildType(guild?.type)}</div>
                 <div>{commaSeperatedNumber(guild?.onlineMembers || 0)}</div>
               </div>
