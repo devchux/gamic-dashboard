@@ -24,21 +24,22 @@ const Dashboard = () => {
     onPageClick,
     minPage,
     maxPage,
+    commaSeperatedNumber,
   } = useDashboard();
 
   return (
     <div className="dashboard-page">
       <div className="graph-wrapper">
         <StatsGraph
-          title="Total number of server"
-          amount={summary["guildCount"] || 0}
+          title="Total Number of Servers"
+          amount={commaSeperatedNumber(summary["guildCount"] || 0)}
           data={summary[getGuildKey().key]}
           state={guildState}
           setState={setGuildState}
         />
         <StatsGraph
-          title="total users"
-          amount={summary["userCount"] || 0}
+          title="Total Users"
+          amount={commaSeperatedNumber(summary["userCount"] || 0)}
           data={summary[getUserKey().key]}
           state={userState}
           setState={setUserState}
@@ -46,9 +47,9 @@ const Dashboard = () => {
       </div>
       <div className="user-counts-wrapper">
         <UserCounts
-          dailyActiveUser={summary?.dailyActiveUser}
-          weeklyActiveUser={summary?.weeklyActiveUser}
-          monthlyActiveUser={summary?.monthlyActiveUser}
+          dailyActiveUser={commaSeperatedNumber(summary?.dailyActiveUser)}
+          weeklyActiveUser={commaSeperatedNumber(summary?.weeklyActiveUser)}
+          monthlyActiveUser={commaSeperatedNumber(summary?.monthlyActiveUser)}
         />
       </div>
       <div className="server-table-wrapper">
@@ -56,19 +57,18 @@ const Dashboard = () => {
         <div className="server-table">
           <div className="table-header">
             <div>Name</div>
-            <div>type</div>
-            <div>member</div>
-
-            {/* <div>online</div> */}
+            <div>Type</div>
+            <div>Members</div>
+            {/* <div>Online</div> */}
           </div>
           {guilds.length &&
             guilds?.map((guild) => (
               <div className="table-row" key={guild?.id}>
                 <div>{guild?.guildName}</div>
                 <div>{getGuildType(guild?.type)}</div>
-                <div>{guild?.members}</div>
+                <div>{commaSeperatedNumber(guild?.members)}</div>
 
-                {/* <div>{guild?.onlineMembers}</div> */}
+                {/* <div>{commaSeperatedNumber(guild?.onlineMembers || 0)}</div> */}
               </div>
             ))}
         </div>

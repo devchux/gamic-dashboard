@@ -8,15 +8,15 @@ const UserCounts = ({
   return (
     <div className="user-counts">
       <div>
-        <p>daily active user</p>
+        <p>Daily Active Users</p>
         <h4>{dailyActiveUser || 0}</h4>
       </div>
       <div>
-        <p>weekly active user</p>
+        <p>Weekly Active Users</p>
         <h4>{weeklyActiveUser || 0}</h4>
       </div>
       <div>
-        <p>monthly active user</p>
+        <p>Monthly Active Users</p>
         <h4>{monthlyActiveUser || 0}</h4>
       </div>
     </div>

@@ -19,10 +19,7 @@ const StatsGraph = ({ title, amount, state, setState, data = [] }) => {
         <Button activated={state === "daily"} onClick={() => setState("daily")}>
           Daily
         </Button>
-        <Button
-          activated={state === "weekly"}
-          onClick={() => setState("weekly")}
-        >
+        <Button activated={state === "weekly"} onClick={() => setState("weekly")}>
           Weekly
         </Button>
         <Button

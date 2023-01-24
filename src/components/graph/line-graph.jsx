@@ -23,6 +23,32 @@ ChartJS.register(
 
 const options = {
   responsive: true,
+  scales: {
+    // to remove the labels
+    x: {
+      ticks: {
+        display: false,
+      },
+
+      // to remove the x-axis grid
+      grid: {
+        drawBorder: false,
+        display: false,
+      },
+    },
+    // to remove the y-axis labels
+    y: {
+      ticks: {
+        display: false,
+        beginAtZero: true,
+      },
+      // to remove the y-axis grid
+      grid: {
+        drawBorder: false,
+        display: false,
+      },
+    },
+  },
   plugins: {
     legend: {
       position: "top",
@@ -33,10 +59,10 @@ const options = {
       text: "Chart.js Line Chart",
     },
     tooltip: {
-      backgroundColor: '#00BA50',
-      boxWidth: '0',
-      boxHeight: '0'
-    }
+      backgroundColor: "#00BA50",
+      boxWidth: "0",
+      boxHeight: "0",
+    },
   },
 };
 

@@ -12,7 +12,7 @@ export const useDashboard = () => {
   const [userState, setUserState] = useState("daily");
   const [guildState, setGuildState] = useState("daily");
 
-  const api = process.env.REACT_APP_BACKEND_API
+  const api = process.env.REACT_APP_BACKEND_API;
 
   const getUserKey = () => {
     switch (userState) {
@@ -73,7 +73,6 @@ export const useDashboard = () => {
     setCurrentPage(page);
   };
 
-
   const getMinMaxPage = () => {
     let maxPage = 5;
     let minPage = 0;
@@ -88,6 +87,12 @@ export const useDashboard = () => {
   };
 
   const [minPage, maxPage] = getMinMaxPage();
+
+  const commaSeperatedNumber = (val) => {
+    return (+val).toLocaleString(undefined, {
+      maximumFractionDigits: 2,
+    });
+  };
 
   const getSummary = async () => {
     try {
@@ -114,7 +119,7 @@ export const useDashboard = () => {
 
   useEffect(() => {
     getSummary();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -142,5 +147,6 @@ export const useDashboard = () => {
     onPageClick,
     minPage,
     maxPage,
+    commaSeperatedNumber,
   };
 };
