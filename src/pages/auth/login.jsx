@@ -6,9 +6,8 @@ import { LogoIcon } from "../../assets/svgs";
 import Button from "../../components/button/button";
 import InputText from "../../components/inputs/input-text";
 import { Helpers } from "../../services/helpers";
-
-const envEmail = process.env.REACT_APP_AUTH_EMAIL;
-const envPassword = process.env.REACT_APP_AUTH_PASSWORD;
+const envUsers = process.env.REACT_APP_USERS;
+const users = envUsers?.replace(/\[|\]/g, "").split("-");
 
 const helpers = new Helpers();
 
@@ -19,14 +18,33 @@ const Login = () => {
   const onSubmit = () => {
     if (!input.email || !input.password)
       return toast.error("Incomplete credentials");
-    if (
-      input.email.toLowerCase() !== envEmail.toLowerCase() ||
-      input.password.toLowerCase() !== envPassword.toLowerCase()
-    )
-      return toast.error("Email or Password is incorrect");
 
-    helpers.storeToken(envEmail);
-    navigate("/");
+    let isValid = null;
+    let progress = 0;
+
+    users.every((objStr) => {
+      const obj = JSON.parse(objStr);
+      progress += 1;
+      if (
+        obj.email.toLowerCase() === input.email.toLowerCase() &&
+        obj.password.toLowerCase() === input.password.toLowerCase()
+      ) {
+        isValid = true;
+        return false;
+      } else {
+        return true;
+      }
+    });
+
+    if (isValid) {
+      helpers.storeToken(input.email);
+      navigate("/");
+      return;
+    }
+
+    if (progress === users.length) {
+      return toast.error("Email or Password is incorrect");
+    }
   };
 
   return (
