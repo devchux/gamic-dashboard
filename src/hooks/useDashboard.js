@@ -11,6 +11,7 @@ export const useDashboard = () => {
   const [pages, setPages] = useState(1);
   const [userState, setUserState] = useState("daily");
   const [guildState, setGuildState] = useState("daily");
+  const [loading, setLoading] = useState(false);
 
   const api = process.env.REACT_APP_BACKEND_API;
 
@@ -96,15 +97,19 @@ export const useDashboard = () => {
 
   const getSummary = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(`${api}/summary`);
       setSummary(data.result);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       toast.error(error?.response?.data || error.message);
     }
   };
 
   const getGuilds = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(
         `${api}/guilds?current=${currentPage}&size=${size}`
       );
@@ -112,7 +117,9 @@ export const useDashboard = () => {
       setTotal(data?.result?.total || 0);
       setCurrentPage(data?.result?.current || 1);
       setPages(data?.result?.pages || 1);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       toast.error(error?.response?.data || error.message);
     }
   };
@@ -147,6 +154,7 @@ export const useDashboard = () => {
     onPageClick,
     minPage,
     maxPage,
+    loading,
     commaSeperatedNumber,
   };
 };

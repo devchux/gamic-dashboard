@@ -1,4 +1,5 @@
 import React from "react";
+import { BeatLoader } from "react-spinners";
 import Pagination from "../../components/pagination";
 import StatsGraph from "../../components/stats/stats-graph";
 import UserCounts from "../../components/stats/user-counts";
@@ -24,6 +25,7 @@ const Dashboard = () => {
     onPageClick,
     minPage,
     maxPage,
+    loading,
     commaSeperatedNumber,
   } = useDashboard();
 
@@ -47,9 +49,13 @@ const Dashboard = () => {
       </div>
       <div className="user-counts-wrapper">
         <UserCounts
-          dailyActiveUser={commaSeperatedNumber(summary?.dailyActiveUser)}
-          weeklyActiveUser={commaSeperatedNumber(summary?.weeklyActiveUser)}
-          monthlyActiveUser={commaSeperatedNumber(summary?.monthlyActiveUser)}
+          dailyActiveUser={commaSeperatedNumber(summary?.dailyActiveUser || 0)}
+          weeklyActiveUser={commaSeperatedNumber(
+            summary?.weeklyActiveUser || 0
+          )}
+          monthlyActiveUser={commaSeperatedNumber(
+            summary?.monthlyActiveUser || 0
+          )}
         />
       </div>
       <div className="server-table-wrapper">
@@ -66,7 +72,7 @@ const Dashboard = () => {
               <div className="table-row" key={guild?.id}>
                 <div>{guild?.guildName}</div>
                 <div>{getGuildType(guild?.type)}</div>
-                <div>{commaSeperatedNumber(guild?.members)}</div>
+                <div>{commaSeperatedNumber(guild?.members || 0)}</div>
 
                 {/* <div>{commaSeperatedNumber(guild?.onlineMembers || 0)}</div> */}
               </div>
@@ -86,6 +92,11 @@ const Dashboard = () => {
           onPageChange={onPageClick}
         />
       </div>
+      {loading && (
+        <div className="preloader">
+          <BeatLoader color="#ffffff" />
+        </div>
+      )}
     </div>
   );
 };
