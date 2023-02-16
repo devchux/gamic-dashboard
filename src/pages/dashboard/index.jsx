@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { BeatLoader } from "react-spinners";
 import Pagination from "../../components/pagination";
 import StatsGraph from "../../components/stats/stats-graph";
@@ -6,6 +7,7 @@ import UserCounts from "../../components/stats/user-counts";
 import { useDashboard } from "../../hooks/useDashboard";
 
 const Dashboard = () => {
+  const [sortStatus, setStortStatus] = useState({ by: "desc", type: "name" });
   const {
     summary,
     guilds,
@@ -28,6 +30,23 @@ const Dashboard = () => {
     loading,
     commaSeperatedNumber,
   } = useDashboard();
+
+  const sort = () => {
+    const sorted = Array.from(guilds || []);
+
+    sorted.sort(function (a, b) {
+      if (sortStatus.type === "name") {
+        return sortStatus.by === "desc"
+          ? new Date(b.createdTime) - new Date(a.createdTime)
+          : new Date(a.createdTime) - new Date(b.createdTime);
+      }
+      return sortStatus.by === "desc"
+        ? b.members - a.members
+        : a.members - b.members;
+    });
+
+    return sorted;
+  };
 
   return (
     <div className="dashboard-page">
@@ -62,15 +81,45 @@ const Dashboard = () => {
         <h4 className="table-title">Servers</h4>
         <div className="server-table">
           <div className="table-header">
-            <div>Name</div>
-            <div>Members</div>
+            <div>
+              Name{" "}
+              <button
+                class="arrow"
+                onClick={() => setStortStatus({ by: "asc", type: "name" })}
+              >
+                &uarr;
+              </button>
+              <button
+                class="arrow"
+                onClick={() => setStortStatus({ by: "desc", type: "name" })}
+              >
+                &darr;
+              </button>
+            </div>
+            <div>Creators</div>
+            <div>
+              Members{" "}
+              <button
+                class="arrow"
+                onClick={() => setStortStatus({ by: "asc", type: "members" })}
+              >
+                &uarr;
+              </button>
+              <button
+                class="arrow"
+                onClick={() => setStortStatus({ by: "desc", type: "members" })}
+              >
+                &darr;
+              </button>
+            </div>
             <div>Type</div>
             <div>Online</div>
           </div>
           {guilds.length &&
-            guilds?.map((guild) => (
+            sort()?.map((guild) => (
               <div className="table-row" key={guild?.id}>
                 <div>{guild?.guildName}</div>
+                <div>{guild?.createUserName}</div>
                 <div>{commaSeperatedNumber(guild?.members || 0)}</div>
                 <div>{getGuildType(guild?.type)}</div>
                 <div>{commaSeperatedNumber(guild?.onlineMembers || 0)}</div>
