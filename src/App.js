@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./assets/scss/index.scss";
 import Login from "./pages/auth/login";
 import Protected from "./Protected";
+import Space from "./pages/dashboard/space";
 
 function App() {
   return (
@@ -16,12 +17,13 @@ function App() {
           path="/"
           element={
             <Protected>
-              <DashboardLayout>
-                <Dashboard />
-              </DashboardLayout>
+              <DashboardLayout />
             </Protected>
           }
-        />
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="/space/:id" element={<Space />} />
+        </Route>
         <Route path="login" element={<Login />} />
       </Routes>
       <ToastContainer />

@@ -7,6 +7,10 @@
   border: 1px solid $tundora;
   border-radius: 0.8rem;
 
+  &.lg {
+    padding: 1.2rem 9.17rem;
+  }
+
   > div {
     display: flex;
     flex-direction: column;

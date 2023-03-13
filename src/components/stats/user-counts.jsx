@@ -1,24 +1,14 @@
 import React from "react";
 
-const UserCounts = ({
-  dailyActiveUser,
-  weeklyActiveUser,
-  monthlyActiveUser,
-}) => {
+const UserCounts = ({ data = [], lg }) => {
   return (
-    <div className="user-counts">
-      <div>
-        <p>Daily Active Users</p>
-        <h4>{dailyActiveUser || 0}</h4>
-      </div>
-      <div>
-        <p>Weekly Active Users</p>
-        <h4>{weeklyActiveUser || 0}</h4>
-      </div>
-      <div>
-        <p>Monthly Active Users</p>
-        <h4>{monthlyActiveUser || 0}</h4>
-      </div>
+    <div className={`user-counts ${lg ? 'lg' : ''}`}>
+      {data?.map(({ title, amount }, i) => (
+        <div key={i}>
+          <p>{title}</p>
+          <h4>{amount || 0}</h4>
+        </div>
+      ))}
     </div>
   );
 };

@@ -10,11 +10,14 @@
     @media only screen and (min-width: 768px) {
       width: 5.56%;
     }
+
+    > svg {
+      width: 8rem;
+      height: 5.2rem;
+    }
   }
 
   .dashboard-content-wrapper {
-    padding: 4rem 1.6rem;
-
     @media only screen and (min-width: 768px) {
       width: 94.44%;
     }

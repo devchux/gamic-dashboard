@@ -1,6 +1,8 @@
 @import "../../shared/colors.scss";
 
 .dashboard-page {
+  padding: 4rem 1.6rem;
+
   .graph-wrapper {
     display: flex;
     gap: 2.4rem;
@@ -56,6 +58,66 @@
             font-weight: 900;
             text-transform: capitalize;
           }
+        }
+
+        &.table-row {
+          &:hover {
+            background-color: rgba($mineShaft, 0.3);
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+
+  .wallet-overview-wrapper {
+    margin-top: 4.6rem;
+    margin-bottom: 4.7rem;
+
+    > .wallet-title {
+      margin-bottom: 3rem;
+      font-weight: 900;
+      font-size: 1.4rem;
+      line-height: 2rem;
+      text-transform: uppercase;
+      color: #9a9a9a;
+    }
+
+    .wallet-overview {
+      display: flex;
+      gap: 1.6rem;
+
+      > div {
+        flex-grow: 1;
+        flex-basis: 0;
+      }
+    }
+  }
+
+  .wallet-insights-wrapper {
+    > .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      > h4 {
+        font-weight: 900;
+        font-size: 1.4rem;
+        line-height: 2rem;
+        text-transform: uppercase;
+        color: #9a9a9a;
+      }
+
+      > div {
+        display: flex;
+        align-items: center;
+        gap: 1.6rem;
+
+        > p {
+          font-weight: 900;
+          font-size: 1.2rem;
+          line-height: 1.8rem;
+          color: #9a9a9a;
         }
       }
     }
