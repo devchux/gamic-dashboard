@@ -1,0 +1,36 @@
+.area-graph-tooltip {
+  background: #00ba50;
+  border-radius: 4px;
+  padding: 0.8rem 0.4rem;
+  border: none;
+
+  &.bg-orange {
+    background: #ba7b00;
+  }
+
+  > h4 {
+    font-size: 1.4rem;
+    line-height: 2rem;
+    color: #d4ffe7;
+  }
+
+  > p {
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    color: #d4ffe7;
+  }
+}
+
+.area-graph-wrapper {
+  background: #1b1b1b;
+  border-radius: 0.8rem;
+  padding: 2.4rem 1.2rem;
+  margin: 3.1rem 0 4.8rem 0;
+
+  .button-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 3.2rem;
+    margin-top: 3.6rem;
+  }
+}

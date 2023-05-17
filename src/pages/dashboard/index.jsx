@@ -1,13 +1,18 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
+import AreaGraph from "../../components/graph/area-graph";
+import Select from "../../components/input/select";
 import Pagination from "../../components/pagination";
 import StatsGraph from "../../components/stats/stats-graph";
 import UserCounts from "../../components/stats/user-counts";
+import OverviewCard from "../../components/wallet/overview-card";
 import { useDashboard } from "../../hooks/useDashboard";
 
 const Dashboard = () => {
   const [sortStatus, setStortStatus] = useState({ by: "desc", type: "name" });
+  const navigate = useNavigate();
   const {
     summary,
     guilds,
@@ -48,6 +53,48 @@ const Dashboard = () => {
     return sorted;
   };
 
+  const walletOverview = [
+    {
+      variant: "wallet",
+      amount: "303600",
+      title: "TOTAL WALLETS",
+      rating: "+257 (0.16%)",
+    },
+    {
+      variant: "deposit",
+      amount: "228",
+      title: "TOTAL DEPOSITS",
+      rating: "-24 (9.52%)",
+    },
+    {
+      variant: "withdrawal",
+      amount: "47",
+      title: "TOTAL WITHDRAWALS",
+      rating: "+257 (0.16%)",
+    },
+    {
+      variant: "swapped",
+      amount: "47",
+      title: "TOTAL SWAPPED",
+      rating: "+257 (0.16%)",
+    },
+  ];
+
+  const userCounts = [
+    {
+      title: "Daily Active Users",
+      amount: commaSeperatedNumber(summary?.dailyActiveUser || 0),
+    },
+    {
+      title: "Weekly Active Users",
+      amount: commaSeperatedNumber(summary?.weeklyActiveUser || 0),
+    },
+    {
+      title: "Monthly Active Users",
+      amount: commaSeperatedNumber(summary?.monthlyActiveUser || 0),
+    },
+  ];
+
   return (
     <div className="dashboard-page">
       <div className="graph-wrapper">
@@ -67,21 +114,74 @@ const Dashboard = () => {
         />
       </div>
       <div className="user-counts-wrapper">
-        <UserCounts
-          onlineUserCount={commaSeperatedNumber(summary?.onlineUserCount || 0)}
-          last24HourActiveUser={commaSeperatedNumber(
-            summary?.last24HourActiveUser || 0
-          )}
-          weeklyActiveUser={commaSeperatedNumber(
-            summary?.weeklyActiveUser || 0
-          )}
-          monthlyActiveUser={commaSeperatedNumber(
-            summary?.monthlyActiveUser || 0
-          )}
+        <UserCounts data={userCounts} />
+      </div>
+      <div className="wallet-insights-wrapper">
+        <div className="top">
+          <h4>ONLINE USERS</h4>
+          <div>
+            <p>9 Jan</p>
+            <Select
+              fitContent
+              options={[
+                { value: 10, label: "Last 24 hours" },
+                { value: 20, label: "Last 24 hours" },
+                { value: 50, label: "Last 24 hours" },
+              ]}
+            />
+          </div>
+        </div>
+        <AreaGraph
+          showLegend={false}
+          series={[
+            {
+              name: "Users",
+              data: [31, 40, 28, 51, 42, 109, 100],
+            },
+          ]}
+          categories={[5, 10, 15, 20, 25, 30, 35]}
+        />
+      </div>
+      <div className="wallet-overview-wrapper">
+        <h4 className="wallet-title">Wallet Overview</h4>
+        <div className="wallet-overview">
+          {walletOverview.map((x, i) => (
+            <OverviewCard key={i} {...x} />
+          ))}
+        </div>
+      </div>
+      <div className="wallet-insights-wrapper">
+        <div className="top">
+          <h4>WALLET INSIGHTS</h4>
+          <div>
+            <p>9 Jan</p>
+            <Select
+              fitContent
+              options={[
+                { value: 10, label: "Last 24 hours" },
+                { value: 20, label: "Last 24 hours" },
+                { value: 50, label: "Last 24 hours" },
+              ]}
+            />
+          </div>
+        </div>
+        <AreaGraph
+          hasSortButtons
+          series={[
+            {
+              name: "Transaction",
+              data: [31, 40, 28, 51, 42, 109, 100],
+            },
+            {
+              name: "Volume",
+              data: [11, 32, 45, 32, 34, 52, 41],
+            },
+          ]}
+          categories={[5, 10, 15, 20, 25, 30, 35]}
         />
       </div>
       <div className="server-table-wrapper">
-        <h4 className="table-title">Servers</h4>
+        <h4 className="table-title">Spaces</h4>
         <div className="server-table">
           <div className="table-header">
             <div>
@@ -138,7 +238,11 @@ const Dashboard = () => {
           </div>
           {guilds.length &&
             sort()?.map((guild) => (
-              <div className="table-row" key={guild?.id}>
+              <div
+                className="table-row"
+                key={guild?.id}
+                onClick={() => navigate(`/space/${guild.id}`)}
+              >
                 <div>{guild?.guildName}</div>
                 <div>{guild?.createUserName}</div>
                 <div>{commaSeperatedNumber(guild?.members || 0)}</div>
