@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  AirdropIcon,
   DownArrowIcon,
   ParallelArrowIcon,
   UpArrowIcon,
@@ -12,6 +13,7 @@ const OverviewCard = ({ amount, title, rating, variant }) => {
     deposit: UpArrowIcon,
     withdrawal: DownArrowIcon,
     swapped: ParallelArrowIcon,
+    airdrop: AirdropIcon,
   };
   const Icon = icons[variant];
   return (
