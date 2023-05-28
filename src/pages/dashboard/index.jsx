@@ -11,6 +11,7 @@ import OverviewCard from "../../components/wallet/overview-card";
 import { useDashboard } from "../../hooks/useDashboard";
 import Button from "../../components/button/button";
 import Modal from "../../components/modals/modal";
+import { getDate, hourlyRange } from "../../utils/helper";
 
 const Dashboard = () => {
   const [sortStatus, setStortStatus] = useState({ by: "desc", type: "name" });
@@ -18,9 +19,6 @@ const Dashboard = () => {
   const {
     summary,
     guilds,
-    currentPage,
-    setSize,
-    size,
     getUserKey,
     getGuildKey,
     userState,
@@ -36,9 +34,14 @@ const Dashboard = () => {
     maxPage,
     loading,
     commaSeperatedNumber,
-    totalAirdrop,
+    walletOverview,
     modalPrompt,
     setModalPrompt,
+    spaceParams,
+    setSpaceParams,
+    onlineActivityParams,
+    setOnlineActivityParams,
+    onlineActivity,
   } = useDashboard();
 
   const sort = () => {
@@ -58,36 +61,36 @@ const Dashboard = () => {
     return sorted;
   };
 
-  const walletOverview = [
+  const walletOverviewList = [
     {
       variant: "wallet",
-      amount: "303600",
+      amount: commaSeperatedNumber(walletOverview?.totalWallets),
       title: "TOTAL WALLETS",
-      rating: "+257 (0.16%)",
+      // rating: "+257 (0.16%)",
     },
     {
       variant: "deposit",
       amount: "228",
       title: "TOTAL DEPOSITS",
-      rating: "-24 (9.52%)",
+      // rating: "-24 (9.52%)",
     },
     {
       variant: "withdrawal",
       amount: "47",
       title: "TOTAL WITHDRAWALS",
-      rating: "+257 (0.16%)",
+      // rating: "+257 (0.16%)",
     },
     {
       variant: "swapped",
       amount: "47",
       title: "TOTAL SWAPPED",
-      rating: "+257 (0.16%)",
+      // rating: "+257 (0.16%)",
     },
     {
       variant: "airdrop",
-      amount: totalAirdrop,
+      amount: commaSeperatedNumber(walletOverview?.totalAirdrop),
       title: "TOTAL AIRDROP",
-      rating: "+257 (0.16%)",
+      // rating: "+257 (0.16%)",
     },
   ];
 
@@ -136,13 +139,20 @@ const Dashboard = () => {
         <div className="top">
           <h4>ONLINE USERS</h4>
           <div>
-            <p>9 Jan</p>
+            <p>{getDate()}</p>
             <Select
               fitContent
+              value={onlineActivityParams.size}
+              onChange={({ target: { value } }) =>
+                setOnlineActivityParams({
+                  ...onlineActivityParams,
+                  size: value,
+                })
+              }
               options={[
-                { value: 10, label: "Last 24 hours" },
-                { value: 20, label: "Last 24 hours" },
-                { value: 50, label: "Last 24 hours" },
+                { value: 12, label: "Last 12 hours" },
+                { value: 24, label: "Last 24 hours" },
+                { value: 48, label: "Last 48 hours" },
               ]}
             />
           </div>
@@ -152,16 +162,16 @@ const Dashboard = () => {
           series={[
             {
               name: "Users",
-              data: [31, 40, 28, 51, 42, 109, 100],
+              data: onlineActivity?.data?.map(({ count }) => count) || [],
             },
           ]}
-          categories={[5, 10, 15, 20, 25, 30, 35]}
+          categories={hourlyRange(onlineActivity?.data?.map(({ _id }) => _id))}
         />
       </div>
       <div className="wallet-overview-wrapper">
         <h4 className="wallet-title">Wallet Overview</h4>
         <div className="wallet-overview">
-          {walletOverview.map((x, i) => (
+          {walletOverviewList.map((x, i) => (
             <OverviewCard key={i} {...x} />
           ))}
         </div>
@@ -270,9 +280,9 @@ const Dashboard = () => {
       </div>
       <div>
         <Pagination
-          size={size}
-          setSize={setSize}
-          currentPage={currentPage}
+          size={spaceParams.size}
+          setSize={(size) => setSpaceParams({ ...spaceParams, size })}
+          currentPage={spaceParams.currentPage}
           maxPageLimit={maxPage}
           minPageLimit={minPage}
           totalPages={pages}

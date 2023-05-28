@@ -5,14 +5,26 @@ import { toast } from "react-toastify";
 export const useDashboard = () => {
   const [summary, setSummary] = useState({});
   const [guilds, setGuilds] = useState({});
-  const [size, setSize] = useState(10);
   const [total, setTotal] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [spaceParams, setSpaceParams] = useState({
+    currentPage: 1,
+    size: 10,
+  });
+  const [onlineActivityParams, setOnlineActivityParams] = useState({
+    size: 24,
+  });
+  const [onlineActivity, setOnlineActivity] = useState({});
   const [pages, setPages] = useState(1);
   const [userState, setUserState] = useState("daily");
   const [guildState, setGuildState] = useState("daily");
   const [loading, setLoading] = useState(false);
-  const [totalAirdrop, setTotalAirdrop] = useState(0);
+  const [walletOverview, setWalletOverview] = useState({
+    totalWallets: 0,
+    totalDeposits: 0,
+    totalWithdrawals: 0,
+    totalSwapped: 0,
+    totalAirdrop: 0,
+  });
   const [modalPrompt, setModalPrompt] = useState(false);
 
   const api = process.env.REACT_APP_BACKEND_API;
@@ -63,26 +75,38 @@ export const useDashboard = () => {
   };
 
   const onNextPageClick = () => {
-    if (currentPage === pages) return;
-    setCurrentPage(currentPage + 1);
+    if (spaceParams.currentPage === pages) return;
+    setSpaceParams({
+      ...spaceParams,
+      currentPage: spaceParams.currentPage + 1,
+    });
   };
 
   const onPrevPageClick = () => {
-    if (currentPage === 1) return;
-    setCurrentPage(currentPage - 1);
+    if (spaceParams.currentPage === 1) return;
+    setSpaceParams({
+      ...spaceParams,
+      currentPage: spaceParams.currentPage - 1,
+    });
   };
 
   const onPageClick = (page) => {
-    setCurrentPage(page);
+    setSpaceParams({
+      ...spaceParams,
+      currentPage: page,
+    });
   };
 
   const getMinMaxPage = () => {
     let maxPage = 5;
     let minPage = 0;
-    const nextPages = currentPage + 5;
+    const nextPages = spaceParams.currentPage + 5;
 
-    if (currentPage > maxPage || currentPage < minPage) {
-      minPage = currentPage - 1;
+    if (
+      spaceParams.currentPage > maxPage ||
+      spaceParams.currentPage < minPage
+    ) {
+      minPage = spaceParams.currentPage - 1;
       maxPage = nextPages > pages ? pages : nextPages;
     }
 
@@ -100,7 +124,7 @@ export const useDashboard = () => {
   const getSummary = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`${api}/summary`);
+      const { data } = await axios.get(`${api}/dashboard/summary`);
       setSummary(data.result);
     } catch (error) {
       toast.error(error?.response?.data || error.message);
@@ -109,11 +133,30 @@ export const useDashboard = () => {
     }
   };
 
-  const getTotalSummary = async () => {
+  const getWalletOverview = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`${api}/summary2`);
-      setTotalAirdrop(data.result?.allAirdrops);
+      const { data: wallet } = await axios.get(`${api}/stats/wallet-count`);
+      const { data: airdrop } = await axios.get(`${api}/stats/airdrop-count`);
+      setWalletOverview({
+        ...walletOverview,
+        totalAirdrop: airdrop[0]?.count,
+        totalWallets: wallet[0]?.count,
+      });
+    } catch (error) {
+      toast.error(error?.response?.data || error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getOnlineActivity = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(
+        `${api}/stats/online-activity?size=${onlineActivityParams.size}`
+      );
+      setOnlineActivity(data);
     } catch (error) {
       toast.error(error?.response?.data || error.message);
     } finally {
@@ -125,11 +168,10 @@ export const useDashboard = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${api}/guilds?current=${currentPage}&size=${size}`
+        `${api}/dashboard/guilds?current=${spaceParams.currentPage}&size=${spaceParams.size}`
       );
       setGuilds(data?.result?.records);
       setTotal(data?.result?.total || 0);
-      setCurrentPage(data?.result?.current || 1);
       setPages(data?.result?.pages || 1);
     } catch (error) {
       toast.error(error?.response?.data || error.message);
@@ -140,21 +182,25 @@ export const useDashboard = () => {
 
   useEffect(() => {
     getSummary();
-    getTotalSummary();
+    getWalletOverview();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
+    getOnlineActivity();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onlineActivityParams]);
+
+  useEffect(() => {
     getGuilds();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, size]);
+  }, [spaceParams]);
 
   return {
     summary,
     guilds,
-    currentPage,
-    setSize,
-    size,
+    spaceParams,
+    setSpaceParams,
     getUserKey,
     getGuildKey,
     userState,
@@ -171,8 +217,11 @@ export const useDashboard = () => {
     maxPage,
     loading,
     commaSeperatedNumber,
-    totalAirdrop,
     modalPrompt,
     setModalPrompt,
+    walletOverview,
+    onlineActivityParams,
+    setOnlineActivityParams,
+    onlineActivity,
   };
 };
