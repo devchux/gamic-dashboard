@@ -9,6 +9,8 @@ import StatsGraph from "../../components/stats/stats-graph";
 import UserCounts from "../../components/stats/user-counts";
 import OverviewCard from "../../components/wallet/overview-card";
 import { useDashboard } from "../../hooks/useDashboard";
+import Button from "../../components/button/button";
+import Modal from "../../components/modals/modal";
 
 const Dashboard = () => {
   const [sortStatus, setStortStatus] = useState({ by: "desc", type: "name" });
@@ -34,6 +36,9 @@ const Dashboard = () => {
     maxPage,
     loading,
     commaSeperatedNumber,
+    totalAirdrop,
+    modalPrompt,
+    setModalPrompt,
   } = useDashboard();
 
   const sort = () => {
@@ -78,6 +83,12 @@ const Dashboard = () => {
       title: "TOTAL SWAPPED",
       rating: "+257 (0.16%)",
     },
+    {
+      variant: "airdrop",
+      amount: totalAirdrop,
+      title: "TOTAL AIRDROP",
+      rating: "+257 (0.16%)",
+    },
   ];
 
   const userCounts = [
@@ -97,6 +108,11 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-page">
+      <div className="publish-announcement">
+        <Button colored className="button" onClick={() => setModalPrompt(true)}>
+          Post Announcement
+        </Button>
+      </div>
       <div className="graph-wrapper">
         <StatsGraph
           title="Total Number of Servers"
@@ -187,13 +203,13 @@ const Dashboard = () => {
             <div>
               Name{" "}
               <button
-                class="arrow"
+                className="arrow"
                 onClick={() => setStortStatus({ by: "asc", type: "name" })}
               >
                 &uarr;
               </button>
               <button
-                class="arrow"
+                className="arrow"
                 onClick={() => setStortStatus({ by: "desc", type: "name" })}
               >
                 &darr;
@@ -203,13 +219,13 @@ const Dashboard = () => {
             <div>
               Members{" "}
               <button
-                class="arrow"
+                className="arrow"
                 onClick={() => setStortStatus({ by: "asc", type: "members" })}
               >
                 &uarr;
               </button>
               <button
-                class="arrow"
+                className="arrow"
                 onClick={() => setStortStatus({ by: "desc", type: "members" })}
               >
                 &darr;
@@ -270,6 +286,21 @@ const Dashboard = () => {
           <BeatLoader color="#ffffff" />
         </div>
       )}
+      <Modal
+        isOpen={modalPrompt}
+        toggle={() => setModalPrompt(!modalPrompt)}
+        title="Post Announcement"
+        className="dashboard-modal"
+      >
+        <p className="modal-label">Message Body</p>
+        <textarea className="modal-text-input" placeholder="Enter text here" />
+        <div className="button-wrapper">
+          <Button onClick={() => setModalPrompt(false)}>Cancel</Button>
+          <Button onClick={() => setModalPrompt(false)} colored>
+            Post
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };

@@ -3,6 +3,21 @@
 .dashboard-page {
   padding: 4rem 1.6rem;
 
+  .publish-announcement {
+    margin-bottom: 4rem;
+    display: flex;
+    justify-content: flex-end;
+
+    .button {
+      width: 18rem;
+      height: 4.8rem;
+      border-radius: 0.8rem;
+      font-size: 1.6rem;
+      padding: 0;
+      text-transform: capitalize;
+    }
+  }
+
   .graph-wrapper {
     display: flex;
     gap: 2.4rem;
@@ -142,5 +157,44 @@
   }
   .guildType {
     white-space: nowrap;
+  }
+}
+
+.dashboard-modal {
+  .modal-label {
+    font-size: 1.4rem;
+    line-height: 2rem;
+    color: #9a9a9a;
+    margin-bottom: 0.8rem;
+  }
+
+  .modal-text-input {
+    display: block;
+    height: 14.3rem;
+    background: #202020;
+    border-radius: 0.8rem;
+    border: none;
+    width: 100%;
+    padding: 1.2rem;
+
+    &::placeholder {
+      color: #9a9a9a;
+    }
+  }
+
+  .button-wrapper {
+    margin-top: 2.4rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+
+    > .custom-button {
+      width: 7.2rem;
+      padding: 0;
+      height: 4.8rem;
+      border-radius: 0.8rem;
+      font-size: 1.6rem;
+      text-transform: capitalize;
+    }
   }
 }

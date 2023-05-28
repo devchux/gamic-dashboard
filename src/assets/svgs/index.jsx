@@ -5,3 +5,4 @@ export { ReactComponent as UpArrowIcon } from "./up-arrow.svg";
 export { ReactComponent as WalletIcon } from "./wallet.svg";
 export { ReactComponent as BackArrowIcon } from "./back-arrow.svg";
 export { ReactComponent as GreenBatchIcon } from "./green-batch.svg";
+export { ReactComponent as AirdropIcon } from "./airdrop.svg";
