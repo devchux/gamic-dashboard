@@ -35,7 +35,6 @@ const AreaGraph = ({
           },
         },
         xaxis: {
-          type: "numeric",
           categories,
           labels: {
             style: {

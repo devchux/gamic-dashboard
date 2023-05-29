@@ -11,7 +11,7 @@ import OverviewCard from "../../components/wallet/overview-card";
 import { useDashboard } from "../../hooks/useDashboard";
 import Button from "../../components/button/button";
 import Modal from "../../components/modals/modal";
-import { getDate, hourlyRange } from "../../utils/helper";
+import { getDate } from "../../utils/helper";
 
 const Dashboard = () => {
   const [sortStatus, setStortStatus] = useState({ by: "desc", type: "name" });
@@ -165,7 +165,7 @@ const Dashboard = () => {
               data: onlineActivity?.data?.map(({ count }) => count) || [],
             },
           ]}
-          categories={hourlyRange(onlineActivity?.data?.map(({ _id }) => _id))}
+          categories={onlineActivity?.data?.map(({ _id }) => new Date(_id).toLocaleString())}
         />
       </div>
       <div className="wallet-overview-wrapper">
