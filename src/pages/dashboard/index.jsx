@@ -48,8 +48,6 @@ const Dashboard = () => {
     volumeTrend,
   } = useDashboard();
 
-  console.log("lol", countTrend, volumeTrend);
-
   const sort = () => {
     const sorted = Array.from(guilds || []);
 
