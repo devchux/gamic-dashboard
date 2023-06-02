@@ -74,13 +74,13 @@ const Dashboard = () => {
     },
     {
       variant: "transfer",
-      amount: "47",
+      amount: commaSeperatedNumber(walletOverview?.totalTransfers),
       title: "TOTAL TRANSFERS",
       // rating: "+257 (0.16%)",
     },
     {
       variant: "swapped",
-      amount: "47",
+      amount: commaSeperatedNumber(walletOverview?.totalSwapped),
       title: "TOTAL SWAPPED",
       // rating: "+257 (0.16%)",
     },

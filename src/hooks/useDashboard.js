@@ -15,7 +15,7 @@ export const useDashboard = () => {
   });
   const [walletInsightsParams, setWalletInsightsParams] = useState({
     size: 24,
-    type: 'airdrop'
+    type: "airdrop",
   });
   const [volumeTrend, setVolumeTrend] = useState([]);
   const [countTrend, setCountTrend] = useState([]);
@@ -26,8 +26,7 @@ export const useDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [walletOverview, setWalletOverview] = useState({
     totalWallets: 0,
-    totalDeposits: 0,
-    totalWithdrawals: 0,
+    totalTransfers: 0,
     totalSwapped: 0,
     totalAirdrop: 0,
   });
@@ -144,10 +143,14 @@ export const useDashboard = () => {
       setLoading(true);
       const { data: wallet } = await axios.get(`${api}/stats/wallet-count`);
       const { data: airdrop } = await axios.get(`${api}/stats/airdrop-count`);
+      const { data: trans } = await axios.get(`${api}/stats/transactions-type`);
+
       setWalletOverview({
         ...walletOverview,
         totalAirdrop: airdrop[0]?.count,
         totalWallets: wallet[0]?.count,
+        totalSwapped: trans?.find((x) => x.transaction_type === 1).count,
+        totalTransfers: trans?.find((x) => x.transaction_type === 0).count,
       });
     } catch (error) {
       toast.error(error?.response?.data || error.message);
@@ -179,8 +182,8 @@ export const useDashboard = () => {
       const { data: volume } = await axios.get(
         `${api}/stats/${walletInsightsParams.type}-volume-trend?size=${walletInsightsParams.size}`
       );
-      setCountTrend(count)
-      setVolumeTrend(volume)
+      setCountTrend(count);
+      setVolumeTrend(volume);
     } catch (error) {
       toast.error(error?.response?.data || error.message);
     } finally {
