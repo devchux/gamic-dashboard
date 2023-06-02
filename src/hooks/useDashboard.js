@@ -13,6 +13,12 @@ export const useDashboard = () => {
   const [onlineActivityParams, setOnlineActivityParams] = useState({
     size: 24,
   });
+  const [walletInsightsParams, setWalletInsightsParams] = useState({
+    size: 24,
+    type: "airdrop",
+  });
+  const [volumeTrend, setVolumeTrend] = useState([]);
+  const [countTrend, setCountTrend] = useState([]);
   const [onlineActivity, setOnlineActivity] = useState({});
   const [pages, setPages] = useState(1);
   const [userState, setUserState] = useState("daily");
@@ -20,8 +26,7 @@ export const useDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [walletOverview, setWalletOverview] = useState({
     totalWallets: 0,
-    totalDeposits: 0,
-    totalWithdrawals: 0,
+    totalTransfers: 0,
     totalSwapped: 0,
     totalAirdrop: 0,
   });
@@ -138,10 +143,14 @@ export const useDashboard = () => {
       setLoading(true);
       const { data: wallet } = await axios.get(`${api}/stats/wallet-count`);
       const { data: airdrop } = await axios.get(`${api}/stats/airdrop-count`);
+      const { data: trans } = await axios.get(`${api}/stats/transactions-type`);
+
       setWalletOverview({
         ...walletOverview,
         totalAirdrop: airdrop[0]?.count,
         totalWallets: wallet[0]?.count,
+        totalSwapped: trans?.find((x) => x.transaction_type === 1).count,
+        totalTransfers: trans?.find((x) => x.transaction_type === 0).count,
       });
     } catch (error) {
       toast.error(error?.response?.data || error.message);
@@ -157,6 +166,24 @@ export const useDashboard = () => {
         `${api}/stats/online-activity?size=${onlineActivityParams.size}`
       );
       setOnlineActivity(data);
+    } catch (error) {
+      toast.error(error?.response?.data || error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getWalletInsights = async () => {
+    try {
+      setLoading(true);
+      const { data: count } = await axios.get(
+        `${api}/stats/${walletInsightsParams.type}-count-trend?size=${walletInsightsParams.size}`
+      );
+      const { data: volume } = await axios.get(
+        `${api}/stats/${walletInsightsParams.type}-volume-trend?size=${walletInsightsParams.size}`
+      );
+      setCountTrend(count);
+      setVolumeTrend(volume);
     } catch (error) {
       toast.error(error?.response?.data || error.message);
     } finally {
@@ -192,6 +219,11 @@ export const useDashboard = () => {
   }, [onlineActivityParams]);
 
   useEffect(() => {
+    getWalletInsights();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletInsightsParams]);
+
+  useEffect(() => {
     getGuilds();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spaceParams]);
@@ -223,5 +255,9 @@ export const useDashboard = () => {
     onlineActivityParams,
     setOnlineActivityParams,
     onlineActivity,
+    walletInsightsParams,
+    setWalletInsightsParams,
+    countTrend,
+    volumeTrend,
   };
 };
