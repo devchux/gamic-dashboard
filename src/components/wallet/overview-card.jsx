@@ -11,7 +11,7 @@ const OverviewCard = ({ amount, title, rating, variant }) => {
   const icons = {
     wallet: WalletIcon,
     deposit: UpArrowIcon,
-    withdrawal: DownArrowIcon,
+    transfer: DownArrowIcon,
     swapped: ParallelArrowIcon,
     airdrop: AirdropIcon,
   };

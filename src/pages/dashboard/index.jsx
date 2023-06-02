@@ -42,7 +42,13 @@ const Dashboard = () => {
     onlineActivityParams,
     setOnlineActivityParams,
     onlineActivity,
+    walletInsightsParams,
+    setWalletInsightsParams,
+    countTrend,
+    volumeTrend,
   } = useDashboard();
+
+  console.log("lol", countTrend, volumeTrend);
 
   const sort = () => {
     const sorted = Array.from(guilds || []);
@@ -69,15 +75,9 @@ const Dashboard = () => {
       // rating: "+257 (0.16%)",
     },
     {
-      variant: "deposit",
-      amount: "228",
-      title: "TOTAL DEPOSITS",
-      // rating: "-24 (9.52%)",
-    },
-    {
-      variant: "withdrawal",
+      variant: "transfer",
       amount: "47",
-      title: "TOTAL WITHDRAWALS",
+      title: "TOTAL TRANSFERS",
       // rating: "+257 (0.16%)",
     },
     {
@@ -165,7 +165,9 @@ const Dashboard = () => {
               data: onlineActivity?.data?.map(({ count }) => count) || [],
             },
           ]}
-          categories={onlineActivity?.data?.map(({ _id }) => new Date(_id).toLocaleString())}
+          categories={onlineActivity?.data?.map(({ _id }) =>
+            new Date(_id).toLocaleString()
+          )}
         />
       </div>
       <div className="wallet-overview-wrapper">
@@ -180,30 +182,43 @@ const Dashboard = () => {
         <div className="top">
           <h4>WALLET INSIGHTS</h4>
           <div>
-            <p>9 Jan</p>
+            <p>{getDate()}</p>
             <Select
               fitContent
+              value={walletInsightsParams.size}
+              onChange={({ target: { value } }) =>
+                setWalletInsightsParams({
+                  ...walletInsightsParams,
+                  size: value,
+                })
+              }
               options={[
-                { value: 10, label: "Last 24 hours" },
-                { value: 20, label: "Last 24 hours" },
-                { value: 50, label: "Last 24 hours" },
+                { value: 12, label: "Last 12 hours" },
+                { value: 24, label: "Last 24 hours" },
+                { value: 48, label: "Last 48 hours" },
               ]}
             />
           </div>
         </div>
         <AreaGraph
           hasSortButtons
+          status={walletInsightsParams.type}
+          setStatus={(type) =>
+            setWalletInsightsParams({ ...walletInsightsParams, type })
+          }
           series={[
             {
               name: "Transaction",
-              data: [31, 40, 28, 51, 42, 109, 100],
+              data: countTrend?.map(({ count }) => count) || [],
             },
             {
               name: "Volume",
-              data: [11, 32, 45, 32, 34, 52, 41],
+              data: volumeTrend?.map(({ sum }) => sum) || [],
             },
           ]}
-          categories={[5, 10, 15, 20, 25, 30, 35]}
+          categories={[...volumeTrend, ...countTrend]?.map(({ hr }) =>
+            new Date(hr).toLocaleString()
+          )}
         />
       </div>
       <div className="server-table-wrapper">

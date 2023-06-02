@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import ReactApexChart from "react-apexcharts";
 import Button from "../button/button";
 
@@ -7,8 +7,9 @@ const AreaGraph = ({
   categories,
   hasSortButtons = false,
   showLegend = true,
+  status,
+  setStatus
 }) => {
-  const [state, setState] = useState("deposits");
   const graphReferences = useMemo(
     () => ({
       series,
@@ -81,20 +82,20 @@ const AreaGraph = ({
       {hasSortButtons && (
         <div className="button-wrapper">
           <Button
-            activated={state === "deposits"}
-            onClick={() => setState("deposits")}
+            activated={status === "airdrop"}
+            onClick={() => setStatus("airdrop")}
           >
-            Deposits
+            Airdropped
           </Button>
           <Button
-            activated={state === "withdrawals"}
-            onClick={() => setState("withdrawals")}
+            activated={status === "transfer"}
+            onClick={() => setStatus("transfer")}
           >
             Withdrawals
           </Button>
           <Button
-            activated={state === "swapped"}
-            onClick={() => setState("swapped")}
+            activated={status === "swap"}
+            onClick={() => setStatus("swap")}
           >
             Swapped
           </Button>

@@ -13,6 +13,12 @@ export const useDashboard = () => {
   const [onlineActivityParams, setOnlineActivityParams] = useState({
     size: 24,
   });
+  const [walletInsightsParams, setWalletInsightsParams] = useState({
+    size: 24,
+    type: 'airdrop'
+  });
+  const [volumeTrend, setVolumeTrend] = useState([]);
+  const [countTrend, setCountTrend] = useState([]);
   const [onlineActivity, setOnlineActivity] = useState({});
   const [pages, setPages] = useState(1);
   const [userState, setUserState] = useState("daily");
@@ -164,6 +170,24 @@ export const useDashboard = () => {
     }
   };
 
+  const getWalletInsights = async () => {
+    try {
+      setLoading(true);
+      const { data: count } = await axios.get(
+        `${api}/stats/${walletInsightsParams.type}-count-trend?size=${walletInsightsParams.size}`
+      );
+      const { data: volume } = await axios.get(
+        `${api}/stats/${walletInsightsParams.type}-volume-trend?size=${walletInsightsParams.size}`
+      );
+      setCountTrend(count)
+      setVolumeTrend(volume)
+    } catch (error) {
+      toast.error(error?.response?.data || error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getGuilds = async () => {
     try {
       setLoading(true);
@@ -190,6 +214,11 @@ export const useDashboard = () => {
     getOnlineActivity();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onlineActivityParams]);
+
+  useEffect(() => {
+    getWalletInsights();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletInsightsParams]);
 
   useEffect(() => {
     getGuilds();
@@ -223,5 +252,9 @@ export const useDashboard = () => {
     onlineActivityParams,
     setOnlineActivityParams,
     onlineActivity,
+    walletInsightsParams,
+    setWalletInsightsParams,
+    countTrend,
+    volumeTrend,
   };
 };
