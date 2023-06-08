@@ -14,7 +14,8 @@ export const useDashboard = () => {
     size: 24,
   });
   const [walletInsightsParams, setWalletInsightsParams] = useState({
-    size: 24,
+    // size: 24,
+    size: "24hrs",
     type: "airdrop",
   });
   const [volumeTrend, setVolumeTrend] = useState([]);
@@ -177,10 +178,12 @@ export const useDashboard = () => {
     try {
       setLoading(true);
       const { data: count } = await axios.get(
-        `${api}/stats/${walletInsightsParams.type}-count-trend?size=${walletInsightsParams.size}`
+        // `${api}/stats/${walletInsightsParams.type}-count-trend?size=${walletInsightsParams.size}`
+        `${api}/stats/${walletInsightsParams.type}-count-trend-v2?size=${walletInsightsParams.size}`
       );
       const { data: volume } = await axios.get(
-        `${api}/stats/${walletInsightsParams.type}-volume-trend?size=${walletInsightsParams.size}`
+        // `${api}/stats/${walletInsightsParams.type}-volume-trend?size=${walletInsightsParams.size}`
+        `${api}/stats/${walletInsightsParams.type}-volume-trend-v2?size=${walletInsightsParams.size}`
       );
       setCountTrend(count);
       setVolumeTrend(volume);
