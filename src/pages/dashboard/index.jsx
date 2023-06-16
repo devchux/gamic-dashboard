@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
 import AreaGraph from "../../components/graph/area-graph";
 import Select from "../../components/input/select";
@@ -15,7 +15,7 @@ import { getDate } from "../../utils/helper";
 
 const Dashboard = () => {
   const [sortStatus, setStortStatus] = useState({ by: "desc", type: "name" });
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const {
     summary,
     guilds,
@@ -191,9 +191,12 @@ const Dashboard = () => {
                 })
               }
               options={[
-                { value: 12, label: "Last 12 hours" },
-                { value: 24, label: "Last 24 hours" },
-                { value: 48, label: "Last 48 hours" },
+                // { value: 12, label: "Last 12 hours" },
+                // { value: 24, label: "Last 24 hours" },
+                // { value: 48, label: "Last 48 hours" },
+                { value: "24hrs", label: "Last 24 hours" },
+                { value: "1week", label: "Last One week" },
+                { value: "1month", label: "Last One month" },
               ]}
             />
           </div>
@@ -254,21 +257,39 @@ const Dashboard = () => {
                 &darr;
               </button>
             </div>
-            <div>Type</div>
-            <div>Online</div>
+            <div>
+              Online{" "}
+              <button
+                class="arrow"
+                onClick={() =>
+                  setStortStatus({ by: "asc", type: "onlineMembers" })
+                }
+              >
+                &uarr;
+              </button>
+              <button
+                class="arrow"
+                onClick={() =>
+                  setStortStatus({ by: "desc", type: "onlineMembers" })
+                }
+              >
+                &darr;
+              </button>
+            </div>
+            <div> Type</div>
           </div>
           {guilds.length &&
             sort()?.map((guild) => (
               <div
                 className="table-row"
                 key={guild?.id}
-                onClick={() => navigate(`/space/${guild.id}`)}
+                // onClick={() => navigate(`/space/${guild.id}`)}
               >
                 <div>{guild?.guildName}</div>
                 <div>{guild?.createUserName}</div>
                 <div>{commaSeperatedNumber(guild?.members || 0)}</div>
-                <div>{getGuildType(guild?.type)}</div>
                 <div>{commaSeperatedNumber(guild?.onlineMembers || 0)}</div>
+                <div>{getGuildType(guild?.type)}</div>
               </div>
             ))}
         </div>

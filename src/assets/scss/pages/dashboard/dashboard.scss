@@ -152,7 +152,11 @@
 
   .arrow {
     margin-right: 0.1em;
+    font-size: x-small;
     cursor: pointer;
+  }
+  .guildType {
+    white-space: nowrap;
   }
 }
 

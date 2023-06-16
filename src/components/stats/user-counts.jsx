@@ -2,7 +2,7 @@ import React from "react";
 
 const UserCounts = ({ data = [], lg }) => {
   return (
-    <div className={`user-counts ${lg ? 'lg' : ''}`}>
+    <div className={`user-counts ${lg ? "lg" : ""}`}>
       {data?.map(({ title, amount }, i) => (
         <div key={i}>
           <p>{title}</p>

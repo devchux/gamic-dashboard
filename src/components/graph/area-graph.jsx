@@ -8,7 +8,7 @@ const AreaGraph = ({
   hasSortButtons = false,
   showLegend = true,
   status,
-  setStatus
+  setStatus,
 }) => {
   const graphReferences = useMemo(
     () => ({
@@ -56,7 +56,7 @@ const AreaGraph = ({
           },
         },
         tooltip: {
-          custom: function({ series, seriesIndex, dataPointIndex, w }) {
+          custom: function ({ series, seriesIndex, dataPointIndex, w }) {
             return `
               <div class="area-graph-tooltip ${
                 series.length > 1 && seriesIndex === 0 ? "bg-orange" : ""
@@ -91,7 +91,7 @@ const AreaGraph = ({
             activated={status === "transfer"}
             onClick={() => setStatus("transfer")}
           >
-            Withdrawals
+            Transfers
           </Button>
           <Button
             activated={status === "swap"}
