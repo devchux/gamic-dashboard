@@ -6,6 +6,14 @@
   width: 100%;
   height: 100%;
 
+  .alt-link {
+    font-size: 1.4rem;
+
+    > a {
+      color: #FB6320;
+    }
+  }
+
   .form-wrapper {
     width: 100%;
     max-width: 80%;

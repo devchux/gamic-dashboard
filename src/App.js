@@ -8,6 +8,7 @@ import "./assets/scss/index.scss";
 import Login from "./pages/auth/login";
 import Protected from "./Protected";
 import Space from "./pages/dashboard/space";
+import Register from "./pages/auth/register";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/space/:id" element={<Space />} />
         </Route>
         <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>
