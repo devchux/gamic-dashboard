@@ -14,8 +14,10 @@ import Modal from "../../components/modals/modal";
 import { getDate } from "../../utils/helper";
 
 const Dashboard = () => {
-  const [sortStatus, setStortStatus] = useState({ by: "desc", type: "name" });
-  // const navigate = useNavigate();
+  const [sortStatus, setStortStatus] = useState({
+    by: "desc",
+    type: "guildName",
+  });
   const {
     summary,
     guilds,
@@ -49,20 +51,30 @@ const Dashboard = () => {
   } = useDashboard();
 
   const sort = () => {
-    const sorted = Array.from(guilds || []);
+    const sortedArray = Array.from(guilds || []);
 
-    sorted.sort(function (a, b) {
-      if (sortStatus.type === "name") {
-        return sortStatus.by === "desc"
-          ? new Date(b.createdTime) - new Date(a.createdTime)
-          : new Date(a.createdTime) - new Date(b.createdTime);
+    sortedArray.sort((a, b) => {
+      const valueA = a[sortStatus.type];
+      const valueB = b[sortStatus.type];
+
+      if (sortStatus.by === "asc") {
+        if (valueA < valueB) {
+          return -1;
+        } else if (valueA > valueB) {
+          return 1;
+        }
+      } else if (sortStatus.by === "desc") {
+        if (valueA > valueB) {
+          return -1;
+        } else if (valueA < valueB) {
+          return 1;
+        }
       }
-      return sortStatus.by === "desc"
-        ? b.members - a.members
-        : a.members - b.members;
+
+      return 0;
     });
 
-    return sorted;
+    return sortedArray;
   };
 
   const walletOverviewList = [
@@ -230,13 +242,15 @@ const Dashboard = () => {
               Name{" "}
               <button
                 className="arrow"
-                onClick={() => setStortStatus({ by: "asc", type: "name" })}
+                onClick={() => setStortStatus({ by: "asc", type: "guildName" })}
               >
                 &uarr;
               </button>
               <button
                 className="arrow"
-                onClick={() => setStortStatus({ by: "desc", type: "name" })}
+                onClick={() =>
+                  setStortStatus({ by: "desc", type: "guildName" })
+                }
               >
                 &darr;
               </button>
@@ -260,7 +274,7 @@ const Dashboard = () => {
             <div>
               Online{" "}
               <button
-                class="arrow"
+                className="arrow"
                 onClick={() =>
                   setStortStatus({ by: "asc", type: "onlineMembers" })
                 }
@@ -268,7 +282,7 @@ const Dashboard = () => {
                 &uarr;
               </button>
               <button
-                class="arrow"
+                className="arrow"
                 onClick={() =>
                   setStortStatus({ by: "desc", type: "onlineMembers" })
                 }
@@ -278,20 +292,21 @@ const Dashboard = () => {
             </div>
             <div> Type</div>
           </div>
-          {guilds.length &&
-            sort()?.map((guild) => (
-              <div
-                className="table-row"
-                key={guild?.id}
-                // onClick={() => navigate(`/space/${guild.id}`)}
-              >
-                <div>{guild?.guildName}</div>
-                <div>{guild?.createUserName}</div>
-                <div>{commaSeperatedNumber(guild?.members || 0)}</div>
-                <div>{commaSeperatedNumber(guild?.onlineMembers || 0)}</div>
-                <div>{getGuildType(guild?.type)}</div>
-              </div>
-            ))}
+          {guilds.length
+            ? sort()?.map((guild) => (
+                <div
+                  className="table-row"
+                  key={guild?.id}
+                  // onClick={() => navigate(`/space/${guild.id}`)}
+                >
+                  <div>{guild?.guildName}</div>
+                  <div>{guild?.createUserName}</div>
+                  <div>{commaSeperatedNumber(guild?.members || 0)}</div>
+                  <div>{commaSeperatedNumber(guild?.onlineMembers || 0)}</div>
+                  <div>{getGuildType(guild?.type)}</div>
+                </div>
+              ))
+            : null}
         </div>
       </div>
       <div>

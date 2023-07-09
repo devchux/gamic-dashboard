@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export const useDashboard = () => {
   const [summary, setSummary] = useState({});
-  const [guilds, setGuilds] = useState({});
+  const [guilds, setGuilds] = useState([]);
   const [total, setTotal] = useState(10);
   const [spaceParams, setSpaceParams] = useState({
     currentPage: 1,
